@@ -29,11 +29,13 @@ describe("OrderEntity", () => {
     });
 
     // Assert
-    expect(order.items).toEqual([{
-      name: "Pizza",
-      price: 10,
-      quantity: 2,
-    }])
+    expect(order.items).toEqual([
+      {
+        name: "Pizza",
+        price: 10,
+        quantity: 2,
+      },
+    ]);
   });
 
   test("adding multiple items updates the total", () => {
@@ -51,10 +53,33 @@ describe("OrderEntity", () => {
         name: "Coke",
         price: 5,
         quantity: 1,
-      }
+      },
     ]);
 
     // Assert
     expect(order.total).toBe(25);
+  });
+
+  test("removing an item updates the total", () => {
+    // Arrange
+    const order = new OrderEntity();
+    order.addItems([
+      {
+        name: "Pizza",
+        price: 10,
+        quantity: 2,
+      },
+      {
+        name: "Coke",
+        price: 5,
+        quantity: 1,
+      },
+    ]);
+
+    // Act
+    order.removeItem("Pizza");
+
+    // Assert
+    expect(order.total).toBe(5);
   });
 });

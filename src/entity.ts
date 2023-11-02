@@ -1,4 +1,4 @@
-import { Event } from './event.interface';
+import { Event } from "./event.interface";
 
 export abstract class Entity {
   public readonly id!: string;
