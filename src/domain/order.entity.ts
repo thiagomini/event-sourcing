@@ -2,7 +2,12 @@ import { randomUUID } from "crypto";
 import { Discount } from "./discount";
 import { Entity } from "./entity";
 import { Event } from "./event.interface";
-import { ItemAdded, ItemRemoved, DiscountApplied, OrderCreated } from "./events/order.events";
+import {
+  ItemAdded,
+  ItemRemoved,
+  DiscountApplied,
+  OrderCreated,
+} from "./events/order.events";
 
 export type Item = {
   name: string;
@@ -10,9 +15,7 @@ export type Item = {
   quantity: number;
 };
 
-
-export class
-  OrderEntity extends Entity {
+export class OrderEntity extends Entity {
   public readonly items: Item[] = [];
   public readonly total: number = 0;
 
@@ -28,13 +31,16 @@ export class
       this.items.push(event.item);
     } else if (event instanceof ItemRemoved) {
       this.updateTotal(event.newTotal);
-      this.items.splice(this.items.indexOf(event.item), 1);
+      const itemToRemove = this.items.find(
+        (item) => item.name === event.item.name
+      ) as Item;
+      this.items.splice(this.items.indexOf(itemToRemove), 1);
     } else if (event instanceof DiscountApplied) {
       this.updateTotal(event.newTotal);
     } else if (event instanceof OrderCreated) {
       this.assign({
         id: event.orderId,
-      })
+      });
     }
   }
 
