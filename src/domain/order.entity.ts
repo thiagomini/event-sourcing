@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { Discount } from "./discount";
 import { Entity } from "./entity";
 import { Event } from "./event.interface";
-import { ItemAdded, ItemRemoved, DiscountApplied } from "./events/order.events";
+import { ItemAdded, ItemRemoved, DiscountApplied, OrderCreated } from "./events/order.events";
 
 export type Item = {
   name: string;
@@ -16,8 +16,10 @@ export class
   public readonly items: Item[] = [];
   public readonly total: number = 0;
 
-  constructor(public readonly id: string = randomUUID()) {
+  constructor(id: string = randomUUID()) {
     super();
+    const event = new OrderCreated(id, new Date());
+    this.apply(event);
   }
 
   public when(event: Event): void {
@@ -29,6 +31,10 @@ export class
       this.items.splice(this.items.indexOf(event.item), 1);
     } else if (event instanceof DiscountApplied) {
       this.updateTotal(event.newTotal);
+    } else if (event instanceof OrderCreated) {
+      this.assign({
+        id: event.orderId,
+      })
     }
   }
 
