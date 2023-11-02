@@ -39,4 +39,8 @@ export class OrderEntity extends Entity {
 
     this.apply(event)
   }
+
+  public addItems(items: Item[]): void {
+    items.forEach(item => this.addItem(item))
+  }
 }
