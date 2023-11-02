@@ -82,4 +82,33 @@ describe("OrderEntity", () => {
     // Assert
     expect(order.total).toBe(5);
   });
+
+  test("removing an item updates the item list", () => {
+    // Arrange
+    const order = new OrderEntity();
+    order.addItems([
+      {
+        name: "Pizza",
+        price: 10,
+        quantity: 2,
+      },
+      {
+        name: "Coke",
+        price: 5,
+        quantity: 1,
+      },
+    ]);
+
+    // Act
+    order.removeItem("Pizza");
+
+    // Assert
+    expect(order.items).toEqual([
+      {
+        name: "Coke",
+        price: 5,
+        quantity: 1,
+      },
+    ])
+  });
 });
