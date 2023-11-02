@@ -14,7 +14,7 @@ export class ItemAdded implements Event {
     public readonly newTotal: number,
     public readonly orderId: string,
     public readonly occurredOn: Date
-  ) { }
+  ) {}
 }
 
 export class ItemRemoved implements Event {
@@ -23,7 +23,7 @@ export class ItemRemoved implements Event {
     public readonly newTotal: number,
     public readonly orderId: string,
     public readonly occurredOn: Date
-  ) { }
+  ) {}
 }
 
 export class DiscountApplied implements Event {
@@ -32,7 +32,7 @@ export class DiscountApplied implements Event {
     public readonly newTotal: number,
     public readonly orderId: string,
     public readonly occurredOn: Date
-  ) { }
+  ) {}
 }
 
 export class OrderEntity extends Entity {
@@ -54,7 +54,7 @@ export class OrderEntity extends Entity {
   private updateTotal(newTotal: number): void {
     this.assign({
       total: newTotal,
-    })
+    });
   }
 
   public addItem(item: Item): void {
@@ -92,12 +92,7 @@ export class OrderEntity extends Entity {
   public applyDiscount(discount: Discount): void {
     const newTotal = discount.apply(this.total);
 
-    const event = new DiscountApplied(
-      discount,
-      newTotal,
-      this.id,
-      new Date()
-    )
+    const event = new DiscountApplied(discount, newTotal, this.id, new Date());
 
     this.apply(event);
   }
