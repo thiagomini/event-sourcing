@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { OrderEntity } from "./order.entity";
+import { Discount } from "./discount";
 
 describe("OrderEntity", () => {
   test("adding an item updates the total", () => {
@@ -110,5 +111,28 @@ describe("OrderEntity", () => {
         quantity: 1,
       },
     ])
+  });
+
+  test('applying a discount updates the total', () => {
+    // Arrange
+    const order = new OrderEntity();
+    order.addItems([
+      {
+        name: "Pizza",
+        price: 10,
+        quantity: 2,
+      },
+      {
+        name: "Coke",
+        price: 5,
+        quantity: 1,
+      },
+    ]);
+
+    // Act
+    order.applyDiscount(new Discount(10));
+
+    // Assert
+    expect(order.total).toBe(22.5);
   });
 });

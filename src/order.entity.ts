@@ -1,3 +1,4 @@
+import { Discount } from "./discount";
 import { Entity } from "./entity";
 import { Event } from "./event.interface";
 
@@ -25,6 +26,15 @@ export class ItemRemoved implements Event {
   ) { }
 }
 
+export class DiscountApplied implements Event {
+  constructor(
+    public readonly discount: Discount,
+    public readonly newTotal: number,
+    public readonly orderId: string,
+    public readonly occurredOn: Date
+  ) { }
+}
+
 export class OrderEntity extends Entity {
   public readonly items: Item[] = [];
   public readonly total: number = 0;
@@ -40,6 +50,10 @@ export class OrderEntity extends Entity {
         total: event.newTotal,
       });
       this.items.splice(this.items.indexOf(event.item), 1);
+    } else if (event instanceof DiscountApplied) {
+      Object.assign(this, {
+        total: event.newTotal,
+      });
     }
   }
 
@@ -73,5 +87,18 @@ export class OrderEntity extends Entity {
 
   public addItems(items: Item[]): void {
     items.forEach((item) => this.addItem(item));
+  }
+
+  public applyDiscount(discount: Discount): void {
+    const newTotal = discount.apply(this.total);
+
+    const event = new DiscountApplied(
+      discount,
+      newTotal,
+      this.id,
+      new Date()
+    )
+
+    this.apply(event);
   }
 }
