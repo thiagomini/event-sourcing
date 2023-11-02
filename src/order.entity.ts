@@ -17,6 +17,7 @@ export class ItemAdded implements Event {
 }
 
 export class OrderEntity extends Entity {
+  public readonly items: Item[] = [];
   public readonly total: number = 0;
 
   public when(event: Event): void {
@@ -24,6 +25,7 @@ export class OrderEntity extends Entity {
       Object.assign(this, {
         total: event.newTotal,
       })
+      this.items.push(event.item)
     }
   }
 

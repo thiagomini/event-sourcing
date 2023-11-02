@@ -16,4 +16,23 @@ describe("OrderEntity", () => {
     // Assert
     expect(order.total).toBe(20);
   });
+
+  test("adding an item updates the item list", () => {
+    // Arrange
+    const order = new OrderEntity();
+
+    // Act
+    order.addItem({
+      name: "Pizza",
+      price: 10,
+      quantity: 2,
+    });
+
+    // Assert
+    expect(order.items).toEqual([{
+      name: "Pizza",
+      price: 10,
+      quantity: 2,
+    }])
+  });
 });
