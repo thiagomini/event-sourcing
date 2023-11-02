@@ -13,5 +13,9 @@ export abstract class Entity {
     this.events.push(event);
   }
 
+  public assign(props: unknown) {
+    Object.assign(this, props);
+  }
+
   public abstract when(event: Event): void;
 }

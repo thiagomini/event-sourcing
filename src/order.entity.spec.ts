@@ -110,10 +110,10 @@ describe("OrderEntity", () => {
         price: 5,
         quantity: 1,
       },
-    ])
+    ]);
   });
 
-  test('applying a discount updates the total', () => {
+  test("applying a discount updates the total", () => {
     // Arrange
     const order = new OrderEntity();
     order.addItems([

@@ -1,7 +1,7 @@
 export class Discount {
-  constructor(public readonly percentage: number) { }
+  constructor(public readonly percentage: number) {}
 
   public apply(price: number): number {
-    return price - (price * this.percentage / 100);
+    return price - (price * this.percentage) / 100;
   }
 }

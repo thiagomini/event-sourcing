@@ -41,20 +41,20 @@ export class OrderEntity extends Entity {
 
   public when(event: Event): void {
     if (event instanceof ItemAdded) {
-      Object.assign(this, {
-        total: event.newTotal,
-      });
+      this.updateTotal(event.newTotal);
       this.items.push(event.item);
     } else if (event instanceof ItemRemoved) {
-      Object.assign(this, {
-        total: event.newTotal,
-      });
+      this.updateTotal(event.newTotal);
       this.items.splice(this.items.indexOf(event.item), 1);
     } else if (event instanceof DiscountApplied) {
-      Object.assign(this, {
-        total: event.newTotal,
-      });
+      this.updateTotal(event.newTotal);
     }
+  }
+
+  private updateTotal(newTotal: number): void {
+    this.assign({
+      total: newTotal,
+    })
   }
 
   public addItem(item: Item): void {
