@@ -1,6 +1,8 @@
+import { randomUUID } from "crypto";
 import { Discount } from "./discount";
 import { Entity } from "./entity";
 import { Event } from "./event.interface";
+import { ItemAdded, ItemRemoved, DiscountApplied } from "./events/order.events";
 
 export type Item = {
   name: string;
@@ -8,36 +10,15 @@ export type Item = {
   quantity: number;
 };
 
-export class ItemAdded implements Event {
-  constructor(
-    public readonly item: Item,
-    public readonly newTotal: number,
-    public readonly orderId: string,
-    public readonly occurredOn: Date
-  ) {}
-}
 
-export class ItemRemoved implements Event {
-  constructor(
-    public readonly item: Item,
-    public readonly newTotal: number,
-    public readonly orderId: string,
-    public readonly occurredOn: Date
-  ) {}
-}
-
-export class DiscountApplied implements Event {
-  constructor(
-    public readonly discount: Discount,
-    public readonly newTotal: number,
-    public readonly orderId: string,
-    public readonly occurredOn: Date
-  ) {}
-}
-
-export class OrderEntity extends Entity {
+export class
+  OrderEntity extends Entity {
   public readonly items: Item[] = [];
   public readonly total: number = 0;
+
+  constructor(public readonly id: string = randomUUID()) {
+    super();
+  }
 
   public when(event: Event): void {
     if (event instanceof ItemAdded) {
