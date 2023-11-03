@@ -82,4 +82,31 @@ describe("OrderMemoryRepository", () => {
       },
     ]);
   });
+
+  test("saves a new order", async () => {
+    // Arrange
+    const anOrder = new OrderEntity();
+    anOrder.addItem({
+      name: 'Burger',
+      price: 10,
+      quantity: 3
+    })
+    const orderMemoryRepository = new OrderMemoryRepository();
+
+    // Act
+    await orderMemoryRepository.save(anOrder);
+
+    // Assert
+    const result = await orderMemoryRepository.orderById(anOrder.id);
+    const order = result.getValue<OrderEntity>();
+    expect(order.total).toBe(30)
+    expect(order.id).toBe(anOrder.id)
+    expect(order.items).toEqual([
+      {
+        name: 'Burger',
+        price: 10,
+        quantity: 3
+      }
+    ])
+  })
 });
