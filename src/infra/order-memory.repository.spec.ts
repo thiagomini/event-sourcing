@@ -1,15 +1,15 @@
-import { describe, expect, test } from "bun:test";
-import { randomUUID } from "crypto";
+import { describe, expect, test } from 'bun:test';
+import { randomUUID } from 'crypto';
 import {
   ItemAdded,
   ItemRemoved,
   OrderCreated,
-} from "../domain/events/order.events";
-import { OrderMemoryRepository } from "./order-memory.repository";
-import { OrderEntity } from "../domain/order.entity";
+} from '../domain/events/order.events';
+import { OrderMemoryRepository } from './order-memory.repository';
+import { OrderEntity } from '../domain/order.entity';
 
-describe("OrderMemoryRepository", () => {
-  test("finds an order by id", async () => {
+describe('OrderMemoryRepository', () => {
+  test('finds an order by id', async () => {
     // Arrange
     const orderId = randomUUID();
     const orderStream = [new OrderCreated(orderId, new Date())];
@@ -27,40 +27,40 @@ describe("OrderMemoryRepository", () => {
     expect(order.items).toEqual([]);
   });
 
-  test("finds an order with a stream of events", async () => {
+  test('finds an order with a stream of events', async () => {
     // Arrange
     const orderId = randomUUID();
     const orderStream = [
       new OrderCreated(orderId, new Date()),
       new ItemAdded(
         {
-          name: "Pizza",
+          name: 'Pizza',
           price: 10,
           quantity: 2,
         },
         20,
         orderId,
-        new Date()
+        new Date(),
       ),
       new ItemAdded(
         {
-          name: "Coke",
+          name: 'Coke',
           price: 5,
           quantity: 1,
         },
         25,
         orderId,
-        new Date()
+        new Date(),
       ),
       new ItemRemoved(
         {
-          name: "Pizza",
+          name: 'Pizza',
           price: 10,
           quantity: 2,
         },
         5,
         orderId,
-        new Date()
+        new Date(),
       ),
     ];
     const orderMemoryRepository = new OrderMemoryRepository(orderStream);
@@ -76,18 +76,18 @@ describe("OrderMemoryRepository", () => {
     expect(order.total).toEqual(5);
     expect(order.items).toEqual([
       {
-        name: "Coke",
+        name: 'Coke',
         price: 5,
         quantity: 1,
       },
     ]);
   });
 
-  test("saves a new order", async () => {
+  test('saves a new order', async () => {
     // Arrange
     const anOrder = new OrderEntity();
     anOrder.addItem({
-      name: "Burger",
+      name: 'Burger',
       price: 10,
       quantity: 3,
     });
@@ -103,42 +103,42 @@ describe("OrderMemoryRepository", () => {
     expect(order.id).toBe(anOrder.id);
     expect(order.items).toEqual([
       {
-        name: "Burger",
+        name: 'Burger',
         price: 10,
         quantity: 3,
       },
     ]);
   });
 
-  test("saves only additional events", async () => {
+  test('saves only additional events', async () => {
     // Arrange
     const orderId = randomUUID();
     const orderStream = [
       new OrderCreated(orderId, new Date()),
       new ItemAdded(
         {
-          name: "Pizza",
+          name: 'Pizza',
           price: 10,
           quantity: 2,
         },
         20,
         orderId,
-        new Date()
+        new Date(),
       ),
       new ItemAdded(
         {
-          name: "Coke",
+          name: 'Coke',
           price: 5,
           quantity: 1,
         },
         25,
         orderId,
-        new Date()
+        new Date(),
       ),
     ];
     const orderMemoryRepository = new OrderMemoryRepository(orderStream);
     const orderFromRepo = await orderMemoryRepository.orderById(orderId);
-    orderFromRepo.getValue<OrderEntity>().removeItem("Pizza");
+    orderFromRepo.getValue<OrderEntity>().removeItem('Pizza');
 
     // Act
     await orderMemoryRepository.save(orderFromRepo.getValue<OrderEntity>());

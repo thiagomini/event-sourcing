@@ -1,15 +1,15 @@
-import { describe, expect, test } from "bun:test";
-import { OrderEntity } from "./order.entity";
-import { Discount } from "./discount";
+import { describe, expect, test } from 'bun:test';
+import { OrderEntity } from './order.entity';
+import { Discount } from './discount';
 
-describe("OrderEntity", () => {
-  test("adding an item updates the total", () => {
+describe('OrderEntity', () => {
+  test('adding an item updates the total', () => {
     // Arrange
     const order = new OrderEntity();
 
     // Act
     order.addItem({
-      name: "Pizza",
+      name: 'Pizza',
       price: 10,
       quantity: 2,
     });
@@ -18,13 +18,13 @@ describe("OrderEntity", () => {
     expect(order.total).toBe(20);
   });
 
-  test("adding an item updates the item list", () => {
+  test('adding an item updates the item list', () => {
     // Arrange
     const order = new OrderEntity();
 
     // Act
     order.addItem({
-      name: "Pizza",
+      name: 'Pizza',
       price: 10,
       quantity: 2,
     });
@@ -32,20 +32,20 @@ describe("OrderEntity", () => {
     // Assert
     expect(order.items).toEqual([
       {
-        name: "Pizza",
+        name: 'Pizza',
         price: 10,
         quantity: 2,
       },
     ]);
   });
 
-  test("adding an item creates an event", () => {
+  test('adding an item creates an event', () => {
     // Arrange
     const order = new OrderEntity();
 
     // Act
     order.addItem({
-      name: "Pizza",
+      name: 'Pizza',
       price: 10,
       quantity: 2,
     });
@@ -53,24 +53,24 @@ describe("OrderEntity", () => {
     // Assert
     expect(order.stream()).toMatchObject([
       {
-        type: "ItemAdded",
-      }
-    ])
+        type: 'ItemAdded',
+      },
+    ]);
   });
 
-  test("adding multiple items updates the total", () => {
+  test('adding multiple items updates the total', () => {
     // Arrange
     const order = new OrderEntity();
 
     // Act
     order.addItems([
       {
-        name: "Pizza",
+        name: 'Pizza',
         price: 10,
         quantity: 2,
       },
       {
-        name: "Coke",
+        name: 'Coke',
         price: 5,
         quantity: 1,
       },
@@ -80,69 +80,69 @@ describe("OrderEntity", () => {
     expect(order.total).toBe(25);
   });
 
-  test("removing an item updates the total", () => {
+  test('removing an item updates the total', () => {
     // Arrange
     const order = new OrderEntity();
     order.addItems([
       {
-        name: "Pizza",
+        name: 'Pizza',
         price: 10,
         quantity: 2,
       },
       {
-        name: "Coke",
+        name: 'Coke',
         price: 5,
         quantity: 1,
       },
     ]);
 
     // Act
-    order.removeItem("Pizza");
+    order.removeItem('Pizza');
 
     // Assert
     expect(order.total).toBe(5);
   });
 
-  test("removing an item updates the item list", () => {
+  test('removing an item updates the item list', () => {
     // Arrange
     const order = new OrderEntity();
     order.addItems([
       {
-        name: "Pizza",
+        name: 'Pizza',
         price: 10,
         quantity: 2,
       },
       {
-        name: "Coke",
+        name: 'Coke',
         price: 5,
         quantity: 1,
       },
     ]);
 
     // Act
-    order.removeItem("Pizza");
+    order.removeItem('Pizza');
 
     // Assert
     expect(order.items).toEqual([
       {
-        name: "Coke",
+        name: 'Coke',
         price: 5,
         quantity: 1,
       },
     ]);
   });
 
-  test("applying a discount updates the total", () => {
+  test('applying a discount updates the total', () => {
     // Arrange
     const order = new OrderEntity();
     order.addItems([
       {
-        name: "Pizza",
+        name: 'Pizza',
         price: 10,
         quantity: 2,
       },
       {
-        name: "Coke",
+        name: 'Coke',
         price: 5,
         quantity: 1,
       },

@@ -1,5 +1,5 @@
-import { randomUUID } from "crypto";
-import { Event } from "./events/event.interface";
+import { randomUUID } from 'crypto';
+import { Event } from './events/event.interface';
 
 export abstract class Entity {
   protected readonly changes: Event[] = [];

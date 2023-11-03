@@ -1,7 +1,7 @@
-import { Discount } from "./discount";
-import { Entity } from "./entity";
-import { Event } from "./events/event.interface";
-import { DiscountApplied, ItemAdded, ItemRemoved } from "./events/order.events";
+import { Discount } from './discount';
+import { Entity } from './entity';
+import { Event } from './events/event.interface';
+import { DiscountApplied, ItemAdded, ItemRemoved } from './events/order.events';
 
 export type Item = {
   name: string;
@@ -20,7 +20,7 @@ export class OrderEntity extends Entity {
     } else if (event instanceof ItemRemoved) {
       this.updateTotal(event.newTotal);
       const itemToRemove = this.items.find(
-        (item) => item.name === event.item.name
+        (item) => item.name === event.item.name,
       ) as Item;
       this.items.splice(this.items.indexOf(itemToRemove), 1);
     } else if (event instanceof DiscountApplied) {
@@ -39,7 +39,7 @@ export class OrderEntity extends Entity {
       item,
       this.total + item.price * item.quantity,
       this.id,
-      new Date()
+      new Date(),
     );
 
     this.apply(event);
@@ -56,7 +56,7 @@ export class OrderEntity extends Entity {
       item,
       this.total - item.price * item.quantity,
       this.id,
-      new Date()
+      new Date(),
     );
 
     this.apply(event);

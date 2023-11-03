@@ -1,7 +1,7 @@
 export class Result<T, E extends Error = Error> {
   private constructor(
     private readonly value: T | E,
-    private readonly isSuccess: boolean
+    private readonly isSuccess: boolean,
   ) {}
 
   public static ok<T, E extends Error = Error>(value: T): Result<T, E> {
