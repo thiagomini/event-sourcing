@@ -1,6 +1,6 @@
 import { Discount } from "./discount";
 import { Entity } from "./entity";
-import { Event } from "./event.interface";
+import { Event } from "./events/event.interface";
 import { DiscountApplied, ItemAdded, ItemRemoved } from "./events/order.events";
 
 export type Item = {

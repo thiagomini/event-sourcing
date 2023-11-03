@@ -39,6 +39,25 @@ describe("OrderEntity", () => {
     ]);
   });
 
+  test("adding an item creates an event", () => {
+    // Arrange
+    const order = new OrderEntity();
+
+    // Act
+    order.addItem({
+      name: "Pizza",
+      price: 10,
+      quantity: 2,
+    });
+
+    // Assert
+    expect(order.stream()).toMatchObject([
+      {
+        type: "ItemAdded",
+      }
+    ])
+  });
+
   test("adding multiple items updates the total", () => {
     // Arrange
     const order = new OrderEntity();
