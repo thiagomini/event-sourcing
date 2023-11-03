@@ -87,10 +87,10 @@ describe("OrderMemoryRepository", () => {
     // Arrange
     const anOrder = new OrderEntity();
     anOrder.addItem({
-      name: 'Burger',
+      name: "Burger",
       price: 10,
-      quantity: 3
-    })
+      quantity: 3,
+    });
     const orderMemoryRepository = new OrderMemoryRepository();
 
     // Act
@@ -99,14 +99,55 @@ describe("OrderMemoryRepository", () => {
     // Assert
     const result = await orderMemoryRepository.orderById(anOrder.id);
     const order = result.getValue<OrderEntity>();
-    expect(order.total).toBe(30)
-    expect(order.id).toBe(anOrder.id)
+    expect(order.total).toBe(30);
+    expect(order.id).toBe(anOrder.id);
     expect(order.items).toEqual([
       {
-        name: 'Burger',
+        name: "Burger",
         price: 10,
-        quantity: 3
-      }
-    ])
-  })
+        quantity: 3,
+      },
+    ]);
+  });
+
+  test("saves only additional events", async () => {
+    // Arrange
+    const orderId = randomUUID();
+    const orderStream = [
+      new OrderCreated(orderId, new Date()),
+      new ItemAdded(
+        {
+          name: "Pizza",
+          price: 10,
+          quantity: 2,
+        },
+        20,
+        orderId,
+        new Date()
+      ),
+      new ItemAdded(
+        {
+          name: "Coke",
+          price: 5,
+          quantity: 1,
+        },
+        25,
+        orderId,
+        new Date()
+      ),
+    ];
+    const orderMemoryRepository = new OrderMemoryRepository(orderStream);
+    const orderFromRepo = await orderMemoryRepository.orderById(orderId);
+    orderFromRepo.getValue<OrderEntity>().removeItem("Pizza");
+
+    // Act
+    await orderMemoryRepository.save(orderFromRepo.getValue<OrderEntity>());
+
+    // Assert
+    const resultReloaded = await orderMemoryRepository.orderById(orderId);
+    const order = resultReloaded.getValue<OrderEntity>();
+    expect(order.total).toBe(5);
+    expect(order.items).toHaveLength(1);
+    expect(order.stream()).toBeEmpty();
+  });
 });
