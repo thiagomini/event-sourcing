@@ -58,7 +58,7 @@ describe('OrderDrizzleRepository', () => {
         quantity: 3,
       },
     ]);
-  }, 500000);
+  });
 });
 
 function createOrderDrizzleRepository(): OrderRepository {
