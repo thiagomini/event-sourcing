@@ -6,6 +6,29 @@ export interface OrderEvent extends Event {
   orderId: string;
 }
 
+export const orderEventFromType = (type: string, data: OrderEvent): OrderEvent => { 
+  let prototype;
+
+  switch (type) { 
+    case 'OrderCreated':
+      prototype = OrderCreated.prototype;
+      break;
+    case 'ItemAdded':
+      prototype = ItemAdded.prototype;
+      break;
+    case 'ItemRemoved':
+      prototype = ItemRemoved.prototype;
+      break;
+    case 'DiscountApplied':
+      prototype = DiscountApplied.prototype;
+      break;
+    default:
+      throw new Error(`Unknown event type ${type}`);
+  }
+
+  return Object.assign(Object.create(prototype), data);
+}
+
 export class OrderCreated implements OrderEvent {
   public readonly type = 'OrderCreated';
   constructor(

@@ -5,11 +5,17 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@types/pg": "^8.10.7",
     "bun-types": "latest",
+    "drizzle-kit": "^0.19.13",
     "prettier": "^3.0.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "drizzle-orm": "^0.28.6",
+    "pg": "^8.11.3"
+  }
 }

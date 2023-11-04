@@ -1,0 +1,1 @@
+ALTER TABLE "events" ALTER COLUMN "version" SET DATA TYPE serial;

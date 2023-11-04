@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1699122835787,
+      "tag": "0000_careful_blur",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1699124619438,
+      "tag": "0001_young_rocket_racer",
+      "breakpoints": true
+    }
+  ]
+}
