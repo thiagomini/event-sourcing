@@ -15,6 +15,13 @@
       "when": 1699124619438,
       "tag": "0001_young_rocket_racer",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1699126755804,
+      "tag": "0002_third_boomerang",
+      "breakpoints": true
     }
   ]
 }

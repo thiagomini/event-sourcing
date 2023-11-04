@@ -11,12 +11,11 @@ export const events = pgTable(
   {
     id: serial('id').primaryKey(),
     streamId: varchar('stream_id').notNull(),
-    version: serial('version'),
     data: jsonb('data').notNull(),
   },
   (events) => {
     return {
-      uniqueStreamVersion: unique().on(events.streamId, events.version),
+      uniqueStreamVersion: unique().on(events.streamId),
     };
   },
 );
